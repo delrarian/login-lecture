@@ -9,7 +9,7 @@ btn_login.addEventListener("click", login);
 function login(){
     const req = {
         id: id.value,
-        pwd: password.value
+        password: password.value
     };
 
     fetch("/login", {
