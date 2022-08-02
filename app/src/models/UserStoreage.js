@@ -1,6 +1,8 @@
 "user strict";
 
-const fs = require("fs").promises;
+// const fs = require("fs").promises;
+const db = require("../config/db");
+
 
 class UserStorage{   
 
@@ -32,35 +34,37 @@ class UserStorage{
     }
 
     static getUsers(isAll, ...fields){
-        return fs
-        .readFile('./src/databases/users.json')
-        .then((data) => {
-            return this.#getUsers(data, isAll, fields);
-        })
-        .catch(console.error);           
+        // return fs
+        // .readFile('./src/databases/users.json')
+        // .then((data) => {
+        //     return this.#getUsers(data, isAll, fields);
+        // })
+        // .catch(console.error);           
     }
 
     static getUserInfo(id){
-        return fs.readFile('./src/databases/users.json')
-        .then((data) => {
-            return this.#getUserInfo(data, id);
-        })
-        .catch(console.error);           
-    }   
+        return new Promise((resolve, reject) => {
+            db.query("SELECT * FROM users WHERE id = ?", [id], (err, data) =>{
+            console.log(data[0]);
+            if(err) reject(err);
+            resolve(data[0]);
+        });         
+    });   
+}
 
     static async save(userInfo){   
-        const users = await this.getUsers(true);   
-        if(users.id.includes(userInfo.id))     {
-           throw "이미 존재하는 아이디입니다.";
-        }
+        // const users = await this.getUsers(true);   
+        // if(users.id.includes(userInfo.id))     {
+        //    throw "이미 존재하는 아이디입니다.";
+        // }
 
-        users.id.push(userInfo.id);
-        users.names.push(userInfo.names);
-        users.password.push(userInfo.password);
-        console.log(users);
+        // users.id.push(userInfo.id);
+        // users.names.push(userInfo.names);
+        // users.password.push(userInfo.password);
+        // console.log(users);
 
-        fs.writeFile("./src/databases/users.json", JSON.stringify(users));
-        return {success: true};       
+        // fs.writeFile("./src/databases/users.json", JSON.stringify(users));
+        // return {success: true};       
     }
 }
 
