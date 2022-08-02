@@ -2,7 +2,7 @@
 
 const id = document.querySelector("#id"),
     password = document.querySelector("#password"),
-    btn_login = document.querySelector("button");
+    btn_login = document.querySelector("#button");
 
 btn_login.addEventListener("click", login);
 
@@ -11,6 +11,8 @@ function login(){
         id: id.value,
         password: password.value
     };
+    console.log(req);
+
 
     fetch("/login", {
         method: "POST",

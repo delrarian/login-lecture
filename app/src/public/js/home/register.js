@@ -1,7 +1,7 @@
 "use strict";
 
 const id = document.querySelector("#id"),
-    names = document.querySelector("#name"), 
+    names = document.querySelector("#names"), 
     password = document.querySelector("#password"),    
     password_confirm = document.querySelector("#password-confirm"),
     btn_register = document.querySelector("#button");
@@ -9,11 +9,13 @@ const id = document.querySelector("#id"),
 btn_register.addEventListener("click", register);
 
 function register(){
+    if(!id.value) return alert("아이디를 입력하십시오.");
+    if(password.value !== password_confirm.value) return alert("비밀번호가 일치하지 않습니다.");
+
     const req = {
         id: id.value,
-        name: names.value,
-        password: password.value,
-        password_confirm: password_confirm.value
+        names: names.value,
+        password: password.value
     };
     console.log(req);
 
@@ -33,6 +35,6 @@ function register(){
         }
     })
     .catch((err) => {
-        console.error("회원가입 중 에러 발생");
+        console.error("회원등록 중 에러 발생");
     });
 }
