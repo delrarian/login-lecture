@@ -10,14 +10,18 @@ class User{
     async login(){
         const body = this.body;
         const user = await UserStorage.getUserInfo(body.id);
-
-        if(user){
-            if (user.id === body.id && user.password === body.password){
-                return {success: true};
+        try{
+            if(user){
+                if (user.id === body.id && user.password === body.password){
+                    return {success: true};
+                }
+                return {success: false, msg: "비밀번호가 틀렸습니다."};
             }
-            return {success: false, msg: "비밀번호가 틀렸습니다."};
-        }
-        return {success: false, msg: "존재하지 않는 아이디입니다."};
+            return {success: false, msg: "존재하지 않는 아이디입니다."};
+
+        }catch (err){
+            return { success: false, msg: err};
+        }        
     }
 
     async register(){

@@ -1,19 +1,12 @@
 const mysql = require('mysql');
 
 const db = mysql.createConnection({
-    host: "127.0.0.1",
-    port: 3307,
-    user: "tivo",
-    password: "Tivoekd55",
-    database: "loginlecture"
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
-
-// db.connect((err) => {
-//     if(err) throw err;
-//     console.error(err);
-//     console.log("에러있음");
-// });
-
 
 db.connect(function(err){
     if(err) {
