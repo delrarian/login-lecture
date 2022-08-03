@@ -1,6 +1,7 @@
 "user strict";
 
 const db = require("../config/db");
+const logger = require("../config/logger");
 
 
 class UserStorage{   
@@ -8,9 +9,13 @@ class UserStorage{
     static getUserInfo(id){
 
         return new Promise((resolve, reject) => {
-            db.query("SELECT * FROM users WHERE id = ?", [id], (err, data) =>{
-            if(err) reject(`${err}`);
-            resolve(data[0]);
+            const query = "SELECT * FROM users WHERE id = ?;";
+
+            db.query(query, [id], (err, data) =>{
+                if(err){
+                    logger.error(err);
+                    reject(`${err}`);
+                }else resolve(data[0]);
     });         
 });   
 }
@@ -24,7 +29,7 @@ class UserStorage{
                 query, [userInfo.id, userInfo.names, userInfo.password]
                 ,(err) =>{
                     if(err) reject(`${err}`);
-                    resolve({ success: true });
+                    else resolve({ success: true });
                 });         
             });      
     }

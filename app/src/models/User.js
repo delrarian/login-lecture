@@ -1,5 +1,6 @@
 "use strict";
 
+const logger = require("../config/logger");
 const UserStorage = require("./UserStoreage");
 
 class User{
@@ -17,10 +18,10 @@ class User{
                 }
                 return {success: false, msg: "비밀번호가 틀렸습니다."};
             }
-            return {success: false, msg: "존재하지 않는 아이디입니다."};
+            return {success: false, msg: "존재하지 않는 아이디입니다."};   
 
-        }catch (err){
-            return { success: false, msg: err};
+        } catch(err){
+            return { success: false, err };            
         }        
     }
 
@@ -29,8 +30,7 @@ class User{
             const response = await UserStorage.save(this.body);
             return response;
         } catch (err){
-            console.error(err);
-            return { success: false, msg: err};
+            return { success: false, err};
         }        
     }
 }
